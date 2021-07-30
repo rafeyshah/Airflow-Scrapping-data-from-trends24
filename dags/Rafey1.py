@@ -32,8 +32,8 @@ dag = DAG("Rafey1", default_args=default_args, schedule_interval=timedelta(hours
 t1 = BashOperator(task_id='No1_check_file_exists', bash_command = 'shasum ~/store_files_airflow/No1.csv', retries = 2, retry_delay = timedelta(seconds=15),dag=dag)
 t2 = BashOperator(task_id='No2_check_file_exists', bash_command = 'shasum ~/store_files_airflow/No2.csv', retries = 2, retry_delay = timedelta(seconds=15),dag=dag)
 
-t3 = PythonOperator(task_id="print1Hour",python_callable=print_1_Hour,dag=dag)
-t4 = PythonOperator(task_id="print2Hour",python_callable=print_2_Hour,dag=dag)
+t3 = PythonOperator(task_id="print1Hour",python_callable=print_1_Hour,dag=dag, retries = 5)
+t4 = PythonOperator(task_id="print2Hour",python_callable=print_2_Hour,dag=dag, retries = 5)
 
-t5 = PythonOperator(task_id="overlapping",python_callable=over_lapping,dag=dag)
+t5 = PythonOperator(task_id="overlapping",python_callable=over_lapping,dag=dag, retries = 5)
 t1>>t2>>[t3,t4]>>t5
